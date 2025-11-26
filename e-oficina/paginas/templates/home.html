@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block page_content %}
+    <div class="p-5 mb-4 bg-light rounded-3 text-center">
+        <h1 class="display-5 fw-bold">Bem-vindo ao e-Oficina</h1>
+        <p class="fs-4">Gerencie problemas do seu carro ou encontre novos serviços.</p>
+        
+        <div class="mt-4">
+            {% if not user.is_authenticated %}
+                <a href="{% url 'signup' %}" class="btn btn-primary btn-lg me-2">Começar Agora</a>
+                <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-lg">Já tenho conta</a>
+            {% else %}
+                <a href="{% url 'home' %}" class="btn btn-success btn-lg">Acessar meu Painel</a>
+            {% endif %}
+        </div>
+        <hr class="my-4">
+        <p>Quer ver nosso catálogo de serviços antigos?</p>
+        <a href="{% url 'servico_index' %}" class="btn btn-info btn-sm">Ver Galeria</a>
+    </div>
+{% endblock %}

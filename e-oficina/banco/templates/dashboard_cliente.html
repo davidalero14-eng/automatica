@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block page_content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">Novo Problema</div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-success w-100">Registrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <h3>Meus Chamados</h3>
+        {% for p in problemas %}
+            <div class="card mb-3 border-start border-4 {% if p.oficina %}border-success{% else %}border-warning{% endif %}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ p.modelo_carro }} - {{ p.titulo }}</h5>
+                    <p>{{ p.descricao }}</p>
+                    {% if p.imagem %}
+                        <img src="{{ p.imagem.url }}" class="img-fluid rounded mb-2" style="max-height: 200px;">
+                    {% endif %}
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <span class="badge bg-secondary">{{ p.get_status_display }}</span>
+                        {% if p.oficina %}
+                            <small class="text-success fw-bold">Oficina: {{ p.oficina.username }}</small>
+                        {% else %}
+                            <small class="text-muted">Aguardando oficina...</small>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>Nenhum problema cadastrado.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
